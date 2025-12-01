@@ -70,7 +70,7 @@ jobs:
             -e DB_URL="${{ secrets.DB_URL }}" \
             -e DB_USERNAME="${{ secrets.DB_USERNAME }}" \
             -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
-            -e EMAIL_PASSWORD="${{ secrets.SENHA_PETINDER_EMAIL }}" \
+            -e SENHA_PETINDER_EMAIL="${{ secrets.SENHA_PETINDER_EMAIL }}" \
             -e AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}" \
             -e AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
             -e AWS_SESSION_TOKEN="${{ secrets.AWS_SESSION_TOKEN }}" \
