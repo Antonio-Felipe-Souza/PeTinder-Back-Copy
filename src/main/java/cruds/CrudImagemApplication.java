@@ -50,9 +50,21 @@ public class CrudImagemApplication {
 			return;
 		}
 
-		String url = props.getProperty("spring.datasource.url");
-		String user = props.getProperty("spring.datasource.username");
-		String password = props.getProperty("spring.datasource.password");
+		String url = System.getenv("DB_URL");
+		if (url == null || url.isEmpty()) {
+			url = props.getProperty("spring.datasource.url");
+		}
+
+		String user = System.getenv("DB_USERNAME");
+		if (user == null || user.isEmpty()) {
+			user = props.getProperty("spring.datasource.username");
+		}
+
+		String password = System.getenv("DB_PASSWORD");
+		if (password == null || password.isEmpty()) {
+			password = props.getProperty("spring.datasource.password");
+		}
+
 
 		try (Connection conn = DriverManager.getConnection(url, user, password);
 			 Statement stmt = conn.createStatement()) {
