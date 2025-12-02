@@ -76,6 +76,7 @@ jobs:
             -e AWS_SESSION_TOKEN="${{ secrets.AWS_SESSION_TOKEN }}" \
             -e AWS_S3_BUCKET="${{ secrets.AWS_S3_BUCKET_NOME }}" \
             -e RABBITMQ_HOST="${{ secrets.RABBITMQ_HOST }}" \
+            -e REDIS_HOST="${{ secrets.REDIS_HOST }}" \
             ${{ secrets.DOCKERHUB_USERNAME }}/deploy-petinder:backend-v1
 
       - name: Mostrar containers rodando
