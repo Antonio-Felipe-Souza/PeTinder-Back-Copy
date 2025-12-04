@@ -82,3 +82,38 @@ jobs:
 
       - name: Mostrar containers rodando
         run: sudo docker ps -a
+
+  deploy_backend2:
+    needs: build
+    runs-on: [self-hosted, backend2]
+
+    steps:
+      - name: Pull da nova imagem do Docker Hub
+        run: |
+          sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/deploy-petinder:backend-v1
+
+      - name: Parar e remover container antigo (se existir)
+        run: |
+          sudo docker stop petinder-backend || true
+          sudo docker rm petinder-backend || true
+
+      - name: Subir novo container backend
+        run: |
+          sudo docker run -d \
+            --name petinder-backend \
+            --restart=always \
+            -p 8080:8080 \
+            -e DB_URL="${{ secrets.DB_URL }}" \
+            -e DB_USERNAME="${{ secrets.DB_USERNAME }}" \
+            -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
+            -e SENHA_PETINDER_EMAIL="${{ secrets.SENHA_PETINDER_EMAIL }}" \
+            -e AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}" \
+            -e AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
+            -e AWS_SESSION_TOKEN="${{ secrets.AWS_SESSION_TOKEN }}" \
+            -e AWS_S3_BUCKET="${{ secrets.AWS_S3_BUCKET_NOME }}" \
+            -e RABBITMQ_HOST="${{ secrets.RABBITMQ_HOST }}" \
+            -e REDIS_HOST="${{ secrets.REDIS_HOST }}" \
+            ${{ secrets.DOCKERHUB_USERNAME }}/deploy-petinder:backend-v1
+
+      - name: Mostrar containers rodando
+        run: sudo docker ps -a
